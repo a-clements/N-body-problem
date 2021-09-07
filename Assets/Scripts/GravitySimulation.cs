@@ -19,7 +19,7 @@ public class GravitySimulation : MonoBehaviour
 
     public float Pitch = 0.0f;
     public float Yaw = 0.0f;
-    
+
     private Vector3 N_Force;
     private float N_Centripetal;
     private float N_Radius;

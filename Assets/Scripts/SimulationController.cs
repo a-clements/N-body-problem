@@ -11,13 +11,23 @@ public class SimulationController : MonoBehaviour
     [SerializeField] private Rect BodiesWindow = new Rect(10, 10, 160, 350);
     [SerializeField] private Rect UIWindow = new Rect(10, 360, 160, 140);
     [SerializeField] private Rect[] PropertyWindows;
+    [SerializeField] private Rect PropertiesModalWindow = new Rect(175, 150, 270, 125);
 
     private Vector2 scrollViewVector = Vector2.zero;
     private string[] BodyCount = { "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private int n;
     private int i;
+    private int k;
     private int BodyIndex;
     private int BodyPropertyWindowYPosition = 50;
+    private bool ShowProperties = false;
+    private string Mass = "";
+    private string Pitch = "";
+    private string Yaw = "";
+    private string Roll = "";
+    private string XPosition = "";
+    private string YPosition = "";
+    private string ZPosition = "";
 
     void Start()
     {
@@ -45,6 +55,11 @@ public class SimulationController : MonoBehaviour
     {
         BodiesWindow = GUI.Window(0, BodiesWindow, BodyCountWindow, "Bodies");
         UIWindow = GUI.Window(1, UIWindow, SimulationUI, "UI");
+
+        if(ShowProperties == true)
+        {
+            PropertiesModalWindow = GUI.ModalWindow(2, new Rect(PropertiesModalWindow.x, PropertyWindows[k].y, PropertiesModalWindow.width, PropertiesModalWindow.height), ModalWindow, "Set Properties");
+        }
     }
 
     void BodyPropertyWindowArray()
@@ -53,8 +68,49 @@ public class SimulationController : MonoBehaviour
         {
             if(Bodies[j].activeSelf == true)
             {
-                GUI.Button(PropertyWindows[j], "");
+                if(GUI.Button(PropertyWindows[j], "Body " + j))
+                {
+                    k = j;
+                    ShowProperties = true;
+                }
             }
+        }
+    }
+
+    void ModalWindow(int WindowID)
+    {
+        GUI.Label(new Rect(10, 20, 45, 20), "Mass: ");
+        Mass = GUI.TextField(new Rect(50, 20, 95, 20), Mass, 6);
+
+        GUI.Label(new Rect(10, 45, 45, 20), "Pitch: ");
+        Pitch = GUI.TextField(new Rect(50, 45, 45, 20), Pitch, 6);
+        GUI.Label(new Rect(100, 45, 45, 20), "Yaw: ");
+        Yaw = GUI.TextField(new Rect(135, 45, 45, 20), Yaw, 6);
+        GUI.Label(new Rect(185, 45, 45, 20), "Roll: ");
+        Roll = GUI.TextField(new Rect(215, 45, 45, 20), Roll, 6);
+
+        GUI.Label(new Rect(30, 70, 45, 20), "X: ");
+        XPosition = GUI.TextField(new Rect(50, 70, 45, 20), XPosition, 6);
+        GUI.Label(new Rect(115, 70, 45, 20), "Y: ");
+        YPosition = GUI.TextField(new Rect(135, 70, 45, 20), YPosition, 6);
+        GUI.Label(new Rect(200, 70, 45, 20), "Z: ");
+        ZPosition = GUI.TextField(new Rect(215, 70, 45, 20), ZPosition, 6);
+
+        if (GUI.Button(new Rect(70, 95, 140, 25),"Set Property"))
+        {
+            Bodies[k].GetComponent<Rigidbody>().mass = float.Parse(Mass);
+            Bodies[k].transform.position = new Vector3(float.Parse(XPosition), float.Parse(YPosition), float.Parse(ZPosition));
+            Bodies[k].transform.rotation = Quaternion.Euler(float.Parse(Pitch), float.Parse(Yaw), float.Parse(Roll));
+
+            Mass = "";
+            Pitch = "";
+            Yaw = "";
+            Roll = "";
+            XPosition = "";
+            YPosition = "";
+            ZPosition = "";
+
+            ShowProperties = false;
         }
     }
 
