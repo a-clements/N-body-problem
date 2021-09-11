@@ -71,6 +71,17 @@ public class SimulationController : MonoBehaviour
                 if(GUI.Button(PropertyWindows[j], "Body " + j))
                 {
                     k = j;
+
+                    Mass = Bodies[k].GetComponent<Rigidbody>().mass.ToString();
+
+                    Pitch = Bodies[k].transform.eulerAngles.x.ToString();
+                    Yaw = Bodies[k].transform.eulerAngles.y.ToString();
+                    Roll = Bodies[k].transform.eulerAngles.z.ToString();
+
+                    XPosition = Bodies[k].transform.position.x.ToString();
+                    YPosition = Bodies[k].transform.position.y.ToString();
+                    ZPosition = Bodies[k].transform.position.z.ToString();
+
                     ShowProperties = true;
                 }
             }
@@ -100,15 +111,7 @@ public class SimulationController : MonoBehaviour
         {
             Bodies[k].GetComponent<Rigidbody>().mass = float.Parse(Mass);
             Bodies[k].transform.position = new Vector3(float.Parse(XPosition), float.Parse(YPosition), float.Parse(ZPosition));
-            Bodies[k].transform.rotation = Quaternion.Euler(float.Parse(Pitch), float.Parse(Yaw), float.Parse(Roll));
-
-            Mass = "";
-            Pitch = "";
-            Yaw = "";
-            Roll = "";
-            XPosition = "";
-            YPosition = "";
-            ZPosition = "";
+            Bodies[k].transform.eulerAngles = new Vector3(float.Parse(Pitch), float.Parse(Yaw), float.Parse(Roll));
 
             ShowProperties = false;
         }
@@ -137,9 +140,11 @@ public class SimulationController : MonoBehaviour
             }
 
             Bodies[0].transform.position = new Vector3(-15, 0, -10);
+            Bodies[0].transform.rotation = Quaternion.Euler(0, 180, 0);
             Bodies[0].GetComponent<TrailRenderer>().Clear();
 
             Bodies[1].transform.position = new Vector3(15, 0 ,10);
+            Bodies[1].transform.rotation = Quaternion.Euler(0, 0, 0);
             Bodies[1].GetComponent<TrailRenderer>().Clear();
         }
 

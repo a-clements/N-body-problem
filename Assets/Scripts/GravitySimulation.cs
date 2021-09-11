@@ -49,9 +49,6 @@ public class GravitySimulation : MonoBehaviour
         M1 = GetComponent<Rigidbody>();
         Trail = GetComponent<TrailRenderer>();
 
-        //this.transform.position = new Vector3(X_Position, Y_Position, Z_Position);
-        //this.transform.rotation = Quaternion.Euler(Pitch, 0, Yaw);
-
         Trail.startWidth = 0.5f;
         Trail.endWidth = 0.0f;
 
