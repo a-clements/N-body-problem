@@ -60,6 +60,14 @@ public class SimulationController : MonoBehaviour
         {
             PropertiesModalWindow = GUI.ModalWindow(2, new Rect(PropertiesModalWindow.x, PropertyWindows[k].y, PropertiesModalWindow.width, PropertiesModalWindow.height), ModalWindow, "Set Properties");
         }
+
+        for(int j = 0; j < Bodies.Length; j++)
+        {
+            if(Bodies[j].activeSelf == true)
+            {
+                GUI.Label(new Rect(180, PropertyWindows[j].y + 12.5f, 300, 25), Bodies[0].GetComponent<Rigidbody>().mass + " " + Bodies[j].transform.position + " " + Bodies[j].transform.eulerAngles);
+            }
+        }
     }
 
     void BodyPropertyWindowArray()
@@ -68,7 +76,7 @@ public class SimulationController : MonoBehaviour
         {
             if(Bodies[j].activeSelf == true)
             {
-                if(GUI.Button(PropertyWindows[j], "Body " + j))
+                if(GUI.Button(PropertyWindows[j], "Body " + (j + 1)))
                 {
                     k = j;
 
